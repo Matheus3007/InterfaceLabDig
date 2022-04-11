@@ -177,6 +177,7 @@ def Faixa(n):
     delay = 240/id
     pontuacao = 0
     misses = 0
+    iterator = 0
 
     client.on_message = callback
 
