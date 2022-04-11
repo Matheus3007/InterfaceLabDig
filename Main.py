@@ -146,6 +146,10 @@ def callback(client, userdata, message):
             if int(message.payload.decode("utf-8")) == 1:
                 if btn_recieved == 0:
                     btn_recieved = i + 1
+
+                    if iterator >= 30:
+                        return
+
                     if led_recieved == btn_recieved:
                         if(delay > 0):
                             pontuacao += 100 * delay // (240 / id)
@@ -191,6 +195,9 @@ def Faixa(n):
     global totalHits
     global totalMisses
     global highScore
+
+    btn_recieved = 0
+
     first = True
     while running:
         time.sleep(0.2)
