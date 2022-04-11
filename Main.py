@@ -123,7 +123,7 @@ def callback(client, userdata, message):
     global delay
     global pontuacao
 
-    print("AAAAAAAAAA")
+    # print("AAAAAAAAAA")
 
     for i in range(4):
         if message.topic == leds_topics[i]:
@@ -132,6 +132,8 @@ def callback(client, userdata, message):
             else:     
                 iterator += 1
                 led_recieved = 0
+
+                print(iterator)
                 
                 if btn_recieved == 0:
                     misses += 1
@@ -206,9 +208,8 @@ def Faixa(n):
         if(pontuacao>highScore):
             highScore = pontuacao
 
-        if btn_recieved != 0:
-            print(btn_recieved)        
-    
+        # if btn_recieved != 0:
+            # print(btn_recieved)        
 
         screen.fill((151, 204, 187))
         title_render = game_font.render("Faixa "+str(id), True, (59, 115, 103))
@@ -254,6 +255,7 @@ def Faixa(n):
                     delay = 240/id
                     acertos += 1
                     totalHits += 1
+
                 if event.key == K_DOWN:
                     misses += 1
                     totalMisses += 1
@@ -264,7 +266,7 @@ def Faixa(n):
                     running = False
 
         if (click and iterator >= maxnotes):
-            print(topico)
+            # print(topico)
             client.publish(topico, id)
             time.sleep(.1)
             client.publish(topico, 0)
@@ -277,7 +279,7 @@ def Faixa(n):
         mainClock.tick(60)
 
         if (btn_recieved!=0 and iterator >= maxnotes):
-            print(topico)
+            # print(topico)
             client.publish(topico, id)
             client.publish(topico, 0)
             pygame.time.delay(300)
@@ -304,8 +306,9 @@ def GameSelect():
     click = False
 
     while running:
-        if btn_recieved != 0:
-            print(btn_recieved)        
+        # if btn_recieved != 0:
+            # print(btn_recieved)
+  
         client.loop_start()
         screen.fill((151, 204, 187))
         screen.blit(slctTxt, ((screenWidth-400)/2,30))
@@ -320,10 +323,9 @@ def GameSelect():
         screen.blit(faixa3, ((screenWidth-200)/2,30+80+120+30+80+80+30))
         screen.blit(faixa4, ((screenWidth-200)/2,30+80+120+30+30+80+80+80+30))
 
-    
         #Mouse Controller
         mx, my = pygame.mouse.get_pos()
-        
+
         if faixa1btn.collidepoint((mx, my)) or btn_recieved == 1:
             if click or btn_recieved == 1:
                 client.publish(btns_topics[0], 1)
@@ -332,6 +334,7 @@ def GameSelect():
                 time.sleep(0.1)
                 id = 1
                 Faixa(30)
+
         if faixa2btn.collidepoint((mx, my)) or btn_recieved == 2:
             if click or btn_recieved == 2:
                 client.publish(btns_topics[1], 1)
@@ -340,6 +343,7 @@ def GameSelect():
                 time.sleep(0.1)
                 id = 2
                 Faixa(30)
+
         if faixa3btn.collidepoint((mx, my)) or btn_recieved == 3:
             if click or btn_recieved == 3:
                 client.publish(btns_topics[2], 1)
@@ -348,6 +352,7 @@ def GameSelect():
                 time.sleep(0.1)
                 id = 3
                 Faixa(30)
+
         if faixa4btn.collidepoint((mx, my)) or btn_recieved == 4:
             if click or btn_recieved == 4:
                 client.publish(btns_topics[3], 1)
@@ -358,6 +363,7 @@ def GameSelect():
                 Faixa(30)
 
         click = False
+
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -372,12 +378,12 @@ def GameSelect():
         
         pygame.display.update()
         mainClock.tick(60)
-    
 
 
 # Main menu screen
 
 click = False
+
 while running:
     screen.fill((151, 204, 187))
     screen.blit(logo, ((screenWidth-332)/2,15))
@@ -396,10 +402,11 @@ while running:
             GameSelect()
     if resetButton.collidepoint((mx, my)):
         if click:
-            print('reset')
+            # print('reset')
             Stats()
 
     click = False
+
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -421,7 +428,6 @@ while running:
             # running to false to exit the main loop
             if event.key == K_BACKSPACE or event.key == K_ESCAPE:
                 running = False
+
     pygame.display.update()
     mainClock.tick(60)
-                
-
