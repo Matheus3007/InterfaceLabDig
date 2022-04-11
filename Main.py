@@ -54,6 +54,7 @@ id = 0
 delay = 0
 pontuacao = 0
 acertos = 0
+timeout = False
 
 def Stats():
     running = True
@@ -122,23 +123,36 @@ def callback(client, userdata, message):
     global totalHits
     global delay
     global pontuacao
+    global timeout
 
     # print("AAAAAAAAAA")
 
     for i in range(4):
         if message.topic == leds_topics[i]:
             if int(message.payload.decode("utf-8")) == 1:
-                led_recieved = i + 1
-            else:     
-                iterator += 1
-                led_recieved = 0
-
-                print(iterator)
-                
-                if btn_recieved == 0:
+                # print("LED ON")
+                if led_recieved != 0:
+                    timeout = True
                     misses += 1
                     totalMisses += 1
                     delay = 60 * (6 - id)
+
+                led_recieved = i + 1
+            else:
+                # print("LED OFF")
+                iterator += 1
+
+                if not timeout:
+                    led_recieved = 0
+
+                    if btn_recieved == 0:
+                        misses += 1
+                        totalMisses += 1
+                        delay = 60 * (6 - id)
+
+                timeout = False
+
+                # print(iterator)
 
             btn_recieved = 0
 
@@ -149,7 +163,7 @@ def callback(client, userdata, message):
                 if btn_recieved == 0:
                     btn_recieved = i + 1
 
-                    if iterator >= 30:
+                    if led_recieved == 0:
                         return
 
                     if led_recieved == btn_recieved:
@@ -173,6 +187,7 @@ def Faixa(n):
     global pontuacao
     global acertos
     global iterator
+    global timeout
 
     begin = int(round(time.time()*1000))
     topico = "grupo1-bancadaB1/E" + str(id+2)
@@ -199,6 +214,7 @@ def Faixa(n):
     global highScore
 
     btn_recieved = 0
+    timeout = False
 
     first = True
     while running:
