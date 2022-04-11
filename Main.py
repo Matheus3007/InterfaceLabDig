@@ -166,6 +166,7 @@ def Faixa(n):
     global delay
     global pontuacao
     global acertos
+    global iterator
 
     begin = int(round(time.time()*1000))
     topico = "grupo1-bancadaB1/E" + str(id+2)
@@ -219,7 +220,7 @@ def Faixa(n):
         screen.blit(score_render,((screenWidth-score_render.get_width())/2,200 + pont_render.get_height() + mis_render.get_height()))
         
 
-        if(acertos + misses >= maxnotes):
+        if(iterator >= maxnotes):
             end_render = game_font.render("Fim da faixa!", True, (59, 115, 103))
             screen.blit(end_render,((screenWidth-end_render.get_width())/2,200 - pont_render.get_height()))
 
@@ -254,7 +255,7 @@ def Faixa(n):
                 if event.key == K_ESCAPE:
                     running = False
 
-        if (click and acertos + misses >= maxnotes):
+        if (click and iterator >= maxnotes):
             print(topico)
             client.publish(topico, id)
             time.sleep(.1)
@@ -265,7 +266,7 @@ def Faixa(n):
         pygame.display.update()
         mainClock.tick(60)
 
-        if (btn_recieved!=0 and acertos + misses >= maxnotes):
+        if (btn_recieved!=0 and iterator >= maxnotes):
             print(topico)
             client.publish(topico, id)
             client.publish(topico, 0)
