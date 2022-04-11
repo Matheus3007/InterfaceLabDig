@@ -270,6 +270,8 @@ def Faixa(n):
             client.publish(topico, 0)
             pygame.time.delay(300)
             running = False
+            btn_recieved = 0
+
         delay -=1
         pygame.display.update()
         mainClock.tick(60)
@@ -280,6 +282,7 @@ def Faixa(n):
             client.publish(topico, 0)
             pygame.time.delay(300)
             running = False
+            btn_recieved = 0
 
         # print(delay)
         first = False
